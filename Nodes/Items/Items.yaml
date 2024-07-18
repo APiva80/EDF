@@ -208,7 +208,7 @@ Children:
   - Name: LibraryItemVersion
     Type: BaseDataVariableType
     DataType: UInt32
-    Value: 1
+    Value: 2
   - Name: BaseLed
     Id: g=682cc82922872f38c215d10e135c9d2b
     Supertype: ScaleLayout
@@ -310,17 +310,6 @@ Children:
     - Name: Active
       Type: BaseDataVariableType
       DataType: Boolean
-      Children:
-      - Name: DynamicLink
-        Type: DynamicLink
-        DataType: NodePath
-        Value: "/Objects/AniloxChange_r03/CommDrivers/S7TIAPROFINETDriver/Main_CPU/Tags/Main_CPU/51 - P1 - Printer 1/DB_P1_Auto_AnxChange/Fault_Alarm"
-        Children:
-        - Name: Mode
-          Type: BaseVariableType
-          DataType: DynamicLinkMode
-          ModellingRule: Optional
-          Value: 2
     - Name: ColorON
       Type: BaseDataVariableType
       DataType: Color
@@ -343,7 +332,7 @@ Children:
   - Name: LibraryItemVersion
     Type: BaseDataVariableType
     DataType: UInt32
-    Value: 1
+    Value: 2
   - Name: InvertedCheckbox
     Id: g=b87686708763f4c13f23e199549209b3
     Supertype: RowLayout
@@ -553,7 +542,7 @@ Children:
   - Name: LibraryItemVersion
     Type: BaseDataVariableType
     DataType: UInt32
-    Value: 1
+    Value: 2
   - Name: Checkbox
     Id: g=3b1220cd815ec468af5e98eba012aeaa
     Supertype: RowLayout
@@ -686,12 +675,12 @@ Children:
             DataType: ResourceUri
             ReferenceType: HasParameter
             ModellingRule: Optional
+            Value: "ns=4;%PROJECTDIR%/res/AcknowledgeIcon_Icon_border.svg"
           - Name: FalseValue
             Type: BaseDataVariableType
             DataType: ResourceUri
             ReferenceType: HasParameter
             ModellingRule: Optional
-            Value: "ns=4;%PROJECTDIR%/res/AcknowledgeIcon_Icon_border.svg"
       - Name: BackgroundColor
         Type: BaseDataVariableType
         DataType: Color
@@ -753,3 +742,139 @@ Children:
       DataType: Size
       ModellingRule: Optional
       Value: 5.0
+- Name: Autologoff
+  Type: ObjectLibraryItem
+  Description: {"LocaleId":"","Text":"Script da inserire nella MainWindows per sloggare automaticamente dopo un certo tempo l'utente che si è loggato:\nEnabled - Collegare la variabile  {Session}/LoggedIn\nElapsedTime_s - Tempo trascorso dal LogIn\nTimeout_s - Impostazione del tempo per il logout automatico"}
+  Children:
+  - Name: LibraryItemGuid
+    Type: BaseDataVariableType
+    DataType: Guid
+    Value: "363e228e7d4ad266362ec4e4957cb154"
+  - Name: LibraryItemVersion
+    Type: BaseDataVariableType
+    DataType: UInt32
+    Value: 1
+  - Name: Autologoff
+    Id: g=b52f8bf6fb3e46432f46463385aaaf84
+    Supertype: NetLogic
+    ReferenceType: HasComponent
+    Children:
+    - Name: Enabled
+      Type: BaseDataVariableType
+      DataType: Boolean
+      Value: true
+      Children:
+      - Name: DynamicLink
+        Type: DynamicLink
+        DataType: NodePath
+        Value: "{Session}/LoggedIn"
+        Children:
+        - Name: Mode
+          Type: BaseVariableType
+          DataType: DynamicLinkMode
+          ModellingRule: Optional
+          Value: 2
+    - Name: ElapsedTime_s
+      Type: BaseDataVariableType
+      DataType: Int32
+    - Name: Timeout_s
+      Type: BaseDataVariableType
+      DataType: Int32
+      Value: 600
+    - Name: CycleCounterTransitioned1
+      Type: VariableTransitionEventDispatcher
+      Children:
+      - Name: Value
+        Type: BaseVariableType
+        DataType: Double
+        Value: 10.0
+        Children:
+        - Name: DynamicLink
+          Type: DynamicLink
+          DataType: NodePath
+          Value: "../../Timeout_s"
+          Children:
+          - Name: Mode
+            Type: BaseVariableType
+            DataType: DynamicLinkMode
+            ModellingRule: Optional
+            Value: 2
+      - Name: Transition
+        Type: BaseVariableType
+        DataType: VariableTransition
+        Value: 3
+      - Name: VariableNodePath
+        Type: BaseVariableType
+        DataType: NodePath
+        Value: "../ElapsedTime_s"
+      - Name: VariableTransitionEventHandler1
+        Type: EventHandler
+        Children:
+        - Name: ListenEventType
+          Type: PropertyType
+          DataType: NodeId
+          Value: "/Types/EventTypes/BaseEventType/VariableConditionEvent/VariableTransitionEvent"
+        - Name: MethodsToCall
+          Type: BaseObjectType
+          Children:
+          - Name: MethodContainer1
+            Type: BaseObjectType
+            Children:
+            - Name: ns=2;ObjectPointer
+              Type: NodePointer
+              DataType: NodeId
+              Children:
+              - Name: Kind
+                Type: PropertyType
+                DataType: NodeId
+                Value: "/Types/ObjectTypes/BaseObjectType"
+              - Name: DynamicLink
+                Type: DynamicLink
+                DataType: NodePath
+                Value: "{Session}@NodeId"
+                Children:
+                - Name: Mode
+                  Type: BaseVariableType
+                  DataType: DynamicLinkMode
+                  ModellingRule: Optional
+                  Value: 2
+            - Name: ns=2;Method
+              Type: BaseDataVariableType
+              DataType: String
+              Value: "Logout"
+        - Name: EventArguments
+          Type: VariableTransitionEvent
+          Children:
+          - Name: VariableNodeId
+            Type: BaseVariableType
+            DataType: NodeId
+          - Name: NewValue
+            Type: BaseVariableType
+            DataType: BaseDataType
+          - Name: OldValue
+            Type: BaseVariableType
+            DataType: BaseDataType
+          - Name: EventId
+            Type: PropertyType
+            DataType: ByteString
+          - Name: EventType
+            Type: PropertyType
+            DataType: NodeId
+          - Name: SourceNode
+            Type: PropertyType
+            DataType: NodeId
+          - Name: SourceName
+            Type: PropertyType
+            DataType: String
+          - Name: Time
+            Type: PropertyType
+            DataType: UtcTime
+          - Name: ReceiveTime
+            Type: PropertyType
+            DataType: UtcTime
+          - Name: Message
+            Type: PropertyType
+            DataType: LocalizedText
+          - Name: Severity
+            Type: PropertyType
+            DataType: UInt16
