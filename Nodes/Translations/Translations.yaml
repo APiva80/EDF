@@ -1,2 +1,19 @@
 Name: Translations
 Type: FolderType
+Children:
+- Name: LocalizationDictionary1
+  Type: LocalizationDictionary
+  DataType: String
+  ValueRank: OneOrMoreDimensions
+  ArrayDimensions: [0,0]
+  Value: 
+   {
+    "Type": 12,
+    "Dimensions": [4,4],
+    "Body": [
+     "Key","de-DE","it-IT","en-US",
+     "Current","Strom","Corrente","Current",
+     "Velocity","Geschwindigkeit","Velocità","Velocity",
+     "Position","Position","Posizione","Position"
+    ]
+   }
